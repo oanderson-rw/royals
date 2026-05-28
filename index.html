@@ -5,7 +5,7 @@
             *,
             *::before,
             *::after {
-                content-box: border-box;
+                box-sizing: border-box;
             }
 
             :root {
@@ -51,16 +51,13 @@
                 color: var(--text-color);
             }
 
-            section + section {
-                margin-block-start: var(--gap);
-            }
-
             p {
                 margin-block: 0.25rem;
                 color: var(--text-color);
             }
 
             .colors {
+                isolation: isolate;
                 display: grid;
                 grid-template-columns: repeat(10, 1fr);
                 gap: var(--gap);
@@ -70,12 +67,18 @@
                 height: 3rem;
                 aspect-ratio: 1;
                 background-color: var(--color);
-                border-radius: 0.25rem;
 
-                box-shadow:
-                    0 3px 3px rgb(0 0 0 / 0.5),
-                    0 5px 10px rgb(0 0 0 / 0.333),
-                    0 5px 20px rgb(0 0 0 / 0.25);
+                &:hover {
+                    border: 2px solid gold;
+                }
+            }
+
+            .colors.top-row > * {
+                border-radius: 0.25rem 0.25rem 0 0;
+            }
+
+            .colors.bottom-row > * {
+                border-radius: 0 0 0.25rem 0.25rem;
             }
 
             .flex-col-reverse {
@@ -114,7 +117,7 @@
         <main>
             <section>
                 <p>independent (Graphite)</p>
-                <div class="colors">
+                <div class="colors top-row">
                     <span class="color" style="--color: #ecf2fe"></span>
                     <span class="color" style="--color: #bad3fc"></span>
                     <span class="color" style="--color: #80acfa"></span>
@@ -148,7 +151,7 @@
             </section>
             <section class="flex-col-reverse">
                 <p>color-mix'd from root (NF Platform)</p>
-                <div class="colors">
+                <div class="colors bottom-row">
                     <span
                         class="color"
                         style="
