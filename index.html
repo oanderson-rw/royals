@@ -10,7 +10,10 @@
 
             :root {
                 --c-root: #0056ef;
-                --text-color: black;
+                --text-color__light: #fafafa;
+                --text-color__dark: #333;
+
+                --text-color: var(--text-color__dark);
                 --gap: 0.3rem;
             }
 
@@ -26,8 +29,8 @@
                 height: 100svh;
 
                 transition:
-                    background-color 0.2s,
-                    color 0.4s;
+                    background-color 0.2s ease-out,
+                    color 1s ease-out;
             }
 
             main {
@@ -35,6 +38,17 @@
                 height: 100%;
                 display: grid;
                 place-content: center;
+            }
+
+            footer {
+                position: absolute;
+                bottom: 0.5rem;
+                right: 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            footer a {
+                color: var(--text-color);
             }
 
             section + section {
@@ -80,12 +94,17 @@
                             el.style.getPropertyValue("--color");
                         bodyStyle.setProperty(
                             "--text-color",
-                            isDarkerColor ? "white" : "black",
+                            isDarkerColor
+                                ? "var(--text-color__light)"
+                                : "var(--text-color__dark)",
                         );
                     });
                     el.addEventListener("mouseout", () => {
                         bodyStyle.backgroundColor = "white";
-                        bodyStyle.setProperty("--text-color", "black");
+                        bodyStyle.setProperty(
+                            "--text-color",
+                            "var(--text-color__dark)",
+                        );
                     });
                 });
             });
@@ -222,5 +241,11 @@
                 </div>
             </section>
         </main>
+        <footer>
+            <a
+                href="https://github.com/oanderson-rw/royals/blob/main/index.html"
+                >code</a
+            >
+        </footer>
     </body>
 </html>
