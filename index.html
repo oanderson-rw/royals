@@ -1,0 +1,226 @@
+<html>
+    <head>
+        <title>All rise for the Royals</title>
+        <style>
+            *,
+            *::before,
+            *::after {
+                content-box: border-box;
+            }
+
+            :root {
+                --c-root: #0056ef;
+                --text-color: black;
+                --gap: 0.3rem;
+            }
+
+            html {
+                font:
+                    20pt/1.2 "Georgia",
+                    serif;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                height: 100svh;
+
+                transition:
+                    background-color 0.2s,
+                    color 0.4s;
+            }
+
+            main {
+                padding-inline: 2rem;
+                height: 100%;
+                display: grid;
+                place-content: center;
+            }
+
+            section + section {
+                margin-block-start: var(--gap);
+            }
+
+            p {
+                margin-block: 0.25rem;
+                color: var(--text-color);
+            }
+
+            .colors {
+                display: grid;
+                grid-template-columns: repeat(10, 1fr);
+                gap: var(--gap);
+            }
+
+            .color {
+                height: 3rem;
+                aspect-ratio: 1;
+                background-color: var(--color);
+                border-radius: 0.25rem;
+
+                box-shadow:
+                    0 3px 3px rgb(0 0 0 / 0.5),
+                    0 5px 10px rgb(0 0 0 / 0.333),
+                    0 5px 20px rgb(0 0 0 / 0.25);
+            }
+
+            .flex-col-reverse {
+                display: flex;
+                flex-direction: column-reverse;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const bodyStyle = document.body.style;
+                document.querySelectorAll("span.color").forEach((el) => {
+                    const isDarkerColor = el.dataset["darker"] !== undefined;
+                    el.addEventListener("mouseover", () => {
+                        bodyStyle.backgroundColor =
+                            el.style.getPropertyValue("--color");
+                        bodyStyle.setProperty(
+                            "--text-color",
+                            isDarkerColor ? "white" : "black",
+                        );
+                    });
+                    el.addEventListener("mouseout", () => {
+                        bodyStyle.backgroundColor = "white";
+                        bodyStyle.setProperty("--text-color", "black");
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <main>
+            <section>
+                <p>independent (Graphite)</p>
+                <div class="colors">
+                    <span class="color" style="--color: #ecf2fe"></span>
+                    <span class="color" style="--color: #bad3fc"></span>
+                    <span class="color" style="--color: #80acfa"></span>
+                    <span class="color" style="--color: #387ffa"></span>
+                    <span
+                        class="color"
+                        style="--color: var(--c-root)"
+                        data-darker
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: #0044c2"
+                        data-darker
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: #003494"
+                        data-darker
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: #002570"
+                        data-darker
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: #011a4c"
+                        data-darker
+                    ></span>
+                </div>
+            </section>
+            <section class="flex-col-reverse">
+                <p>color-mix'd from root (RN Platform)</p>
+                <div class="colors">
+                    <span
+                        class="color"
+                        style="
+                            --color: color-mix(
+                                in srgb,
+                                var(--c-root),
+                                white 90%
+                            );
+                        "
+                    ></span>
+                    <span
+                        class="color"
+                        style="
+                            --color: color-mix(
+                                in srgb,
+                                var(--c-root),
+                                white 70%
+                            );
+                        "
+                    ></span>
+                    <span
+                        class="color"
+                        style="
+                            --color: color-mix(
+                                in srgb,
+                                var(--c-root),
+                                white 50%
+                            );
+                        "
+                    ></span>
+                    <span
+                        class="color"
+                        style="
+                            --color: color-mix(
+                                in srgb,
+                                var(--c-root),
+                                white 20%
+                            );
+                        "
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: var(--c-root)"
+                        data-darker
+                    ></span>
+                    <span
+                        class="color"
+                        style="
+                            --color: color-mix(
+                                in srgb,
+                                var(--c-root),
+                                black 20%
+                            );
+                        "
+                        data-darker
+                    ></span>
+                    <span
+                        class="color"
+                        style="
+                            --color: color-mix(
+                                in srgb,
+                                var(--c-root),
+                                black 40%
+                            );
+                        "
+                        data-darker
+                    ></span>
+                    <span
+                        class="color"
+                        style="
+                            --color: color-mix(
+                                in srgb,
+                                var(--c-root),
+                                black 50%
+                            );
+                        "
+                        data-darker
+                    ></span>
+                    <span
+                        class="color"
+                        style="
+                            --color: color-mix(
+                                in srgb,
+                                var(--c-root),
+                                black 60%
+                            );
+                        "
+                        data-darker
+                    ></span>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
