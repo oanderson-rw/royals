@@ -9,12 +9,31 @@
             }
 
             :root {
-                --c-root: #0056ef;
                 --text-color__light: #fafafa;
                 --text-color__dark: #333;
 
                 --text-color: var(--text-color__dark);
                 --gap: 0.3rem;
+
+                --color-graphite--100: black;
+                --color-graphite--200: black;
+                --color-graphite--300: black;
+                --color-graphite--400: black;
+                --color-graphite--500: gray;
+                --color-graphite--600: white;
+                --color-graphite--700: white;
+                --color-graphite--800: white;
+                --color-graphite--900: white;
+
+                --color-mixed--100: black;
+                --color-mixed--200: black;
+                --color-mixed--300: black;
+                --color-mixed--400: black;
+                --color-mixed--500: gray;
+                --color-mixed--600: white;
+                --color-mixed--700: white;
+                --color-mixed--800: white;
+                --color-mixed--900: white;
             }
 
             html {
@@ -86,8 +105,131 @@
                 flex-direction: column-reverse;
             }
         </style>
+        <script type="module">
+            import Color from "./color.min.js";
 
-        <script>
+            const mixWeights = {
+                tints: [0.9, 0.7, 0.5, 0.2],
+                shades: [0.2, 0.4, 0.5, 0.6],
+            };
+
+            const colorGroups = {
+                royals: {
+                    root: new Color("#0056ef"),
+                    graphite: {
+                        tints: [
+                            new Color("#ecf2fe"),
+                            new Color("#bad3fc"),
+                            new Color("#80acfa"),
+                            new Color("#387ffa"),
+                        ],
+                        shades: [
+                            new Color("#0044c2"),
+                            new Color("#003494"),
+                            new Color("#002570"),
+                            new Color("#011a4c"),
+                        ],
+                    },
+                },
+
+                grays: {
+                    root: new Color("#666666"),
+                    graphite: {
+                        tints: [
+                            new Color("#f0f0f0"),
+                            new Color("#d1d1d1"),
+                            new Color("#b3b3b3"),
+                            new Color("#858585"),
+                        ],
+                        shades: [
+                            new Color("#525252"),
+                            new Color("#333333"),
+                            new Color("#1f1f1f"),
+                            new Color("#0a0a0a"),
+                        ],
+                    },
+                },
+            };
+
+            /**
+             * @param {string} groupName
+             */
+            function updateCustomPropsByGroup(groupName) {
+                if (colorGroups[groupName]) {
+                    const setProp = document.body.style.setProperty.bind(
+                        document.body.style,
+                    );
+                    const group = colorGroups[groupName];
+
+                    const rootColor = group.root;
+                    document.body.style.setProperty(
+                        "--color-graphite--500",
+                        rootColor.toString(),
+                    );
+                    setProp("--color-mixed--500", rootColor.toString());
+
+                    // tints
+                    setProp("--color-graphite--100", group.graphite.tints[0]);
+                    setProp("--color-graphite--200", group.graphite.tints[1]);
+                    setProp("--color-graphite--300", group.graphite.tints[2]);
+                    setProp("--color-graphite--400", group.graphite.tints[3]);
+                    setProp(
+                        "--color-mixed--100",
+                        rootColor.mix("white", mixWeights.tints[0], {
+                            space: "srgb",
+                        }),
+                    );
+                    setProp(
+                        "--color-mixed--200",
+                        rootColor.mix("white", mixWeights.tints[1], {
+                            space: "srgb",
+                        }),
+                    );
+                    setProp(
+                        "--color-mixed--300",
+                        rootColor.mix("white", mixWeights.tints[2], {
+                            space: "srgb",
+                        }),
+                    );
+                    setProp(
+                        "--color-mixed--400",
+                        rootColor.mix("white", mixWeights.tints[3], {
+                            space: "srgb",
+                        }),
+                    );
+
+                    // shades
+                    setProp("--color-graphite--600", group.graphite.shades[0]);
+                    setProp("--color-graphite--700", group.graphite.shades[1]);
+                    setProp("--color-graphite--800", group.graphite.shades[2]);
+                    setProp("--color-graphite--900", group.graphite.shades[3]);
+                    setProp(
+                        "--color-mixed--600",
+                        rootColor.mix("black", mixWeights.shades[0], {
+                            space: "srgb",
+                        }),
+                    );
+                    setProp(
+                        "--color-mixed--700",
+                        rootColor.mix("black", mixWeights.shades[1], {
+                            space: "srgb",
+                        }),
+                    );
+                    setProp(
+                        "--color-mixed--800",
+                        rootColor.mix("black", mixWeights.shades[2], {
+                            space: "srgb",
+                        }),
+                    );
+                    setProp(
+                        "--color-mixed--900",
+                        rootColor.mix("black", mixWeights.shades[3], {
+                            space: "srgb",
+                        }),
+                    );
+                }
+            }
+
             document.addEventListener("DOMContentLoaded", () => {
                 const bodyStyle = document.body.style;
                 document.querySelectorAll("span.color").forEach((el) => {
@@ -110,42 +252,63 @@
                         );
                     });
                 });
+
+                updateCustomPropsByGroup("royals");
+            });
+
+            document.addEventListener("input", ({ target }) => {
+                if (target.dataset["colorsSelect"] !== globalThis.undefined) {
+                    updateCustomPropsByGroup(target.value);
+                }
             });
         </script>
     </head>
     <body>
+        <header>
+            <select data-colors-select>
+                <option value="royals" selected>Royals</option>
+                <option value="grays">Grays</option>
+            </select>
+        </header>
         <main>
             <section>
                 <p>independent (Graphite)</p>
                 <div class="colors top-row">
-                    <span class="color" style="--color: #ecf2fe"></span>
-                    <span class="color" style="--color: #bad3fc"></span>
-                    <span class="color" style="--color: #80acfa"></span>
-                    <span class="color" style="--color: #387ffa"></span>
                     <span
                         class="color"
-                        style="--color: var(--c-root)"
-                        data-darker
+                        style="--color: var(--color-graphite--100)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: #0044c2"
-                        data-darker
+                        style="--color: var(--color-graphite--200)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: #003494"
-                        data-darker
+                        style="--color: var(--color-graphite--300)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: #002570"
-                        data-darker
+                        style="--color: var(--color-graphite--400)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: #011a4c"
-                        data-darker
+                        style="--color: var(--color-graphite--500)"
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: var(--color-graphite--600)"
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: var(--color-graphite--700)"
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: var(--color-graphite--800)"
+                    ></span>
+                    <span
+                        class="color"
+                        style="--color: var(--color-graphite--900)"
                     ></span>
                 </div>
             </section>
@@ -154,92 +317,39 @@
                 <div class="colors bottom-row">
                     <span
                         class="color"
-                        style="
-                            --color: color-mix(
-                                in srgb,
-                                var(--c-root),
-                                white 90%
-                            );
-                        "
+                        style="--color: var(--color-mixed--100)"
                     ></span>
                     <span
                         class="color"
-                        style="
-                            --color: color-mix(
-                                in srgb,
-                                var(--c-root),
-                                white 70%
-                            );
-                        "
+                        style="--color: var(--color-mixed--200)"
                     ></span>
                     <span
                         class="color"
-                        style="
-                            --color: color-mix(
-                                in srgb,
-                                var(--c-root),
-                                white 50%
-                            );
-                        "
+                        style="--color: var(--color-mixed--300)"
                     ></span>
                     <span
                         class="color"
-                        style="
-                            --color: color-mix(
-                                in srgb,
-                                var(--c-root),
-                                white 20%
-                            );
-                        "
+                        style="--color: var(--color-mixed--400)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--c-root)"
-                        data-darker
+                        style="--color: var(--color-mixed--500)"
                     ></span>
                     <span
                         class="color"
-                        style="
-                            --color: color-mix(
-                                in srgb,
-                                var(--c-root),
-                                black 20%
-                            );
-                        "
-                        data-darker
+                        style="--color: var(--color-mixed--600)"
                     ></span>
                     <span
                         class="color"
-                        style="
-                            --color: color-mix(
-                                in srgb,
-                                var(--c-root),
-                                black 40%
-                            );
-                        "
-                        data-darker
+                        style="--color: var(--color-mixed--700)"
                     ></span>
                     <span
                         class="color"
-                        style="
-                            --color: color-mix(
-                                in srgb,
-                                var(--c-root),
-                                black 50%
-                            );
-                        "
-                        data-darker
+                        style="--color: var(--color-mixed--800)"
                     ></span>
                     <span
                         class="color"
-                        style="
-                            --color: color-mix(
-                                in srgb,
-                                var(--c-root),
-                                black 60%
-                            );
-                        "
-                        data-darker
+                        style="--color: var(--color-mixed--900)"
                     ></span>
                 </div>
             </section>
