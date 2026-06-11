@@ -125,15 +125,27 @@
         <script type="module">
             import Color from "./color.min.js";
 
-            const mixWeights = {
+            const notesMap = Object.freeze({
+                graphite: "*",
+                rnPlatform: "‡",
+                nfPlatform: "§",
+                mixed: "†",
+                brand: "‖",
+            });
+
+            const mixWeights = Object.freeze({
                 tints: [0.9, 0.7, 0.5, 0.2],
                 shades: [0.2, 0.4, 0.5, 0.6],
-            };
+            });
 
             /**
              * @param {Color} rootColor
              */
             function getMixesCollectionFromRoot(rootColor) {
+                if (!(rootColor instanceof Color)) {
+                    rootColor = new Color(rootColor);
+                }
+
                 return [
                     rootColor.mix("white", mixWeights.tints[0], {
                         space: "srgb",
@@ -167,7 +179,7 @@
 
             const colorGroups = {
                 royalsGraphite: {
-                    displayName: "Royals (Graphite)",
+                    displayName: "Royals",
                     colors: [
                         new Color("#ecf2fe"),
                         new Color("#bad3fc"),
@@ -179,10 +191,42 @@
                         new Color("#002570"),
                         new Color("#011a4c"),
                     ],
+                    notes: ["graphite", "brand"],
                 },
                 royalsMixed: {
-                    displayName: "Royals (color-mixed)",
+                    displayName: "Royals",
                     colors: getMixesCollectionFromRoot(royalRoot),
+                    notes: ["mixed", "rnPlatform", "nfPlatform"],
+                },
+                cobalts: {
+                    displayName: "Cobalts",
+                    colors: getMixesCollectionFromRoot("#2a3690"),
+                    notes: ["mixed", "rnPlatform"],
+                },
+                midnights: {
+                    displayName: "Midnights",
+                    colors: getMixesCollectionFromRoot("#141c44"),
+                    notes: ["mixed", "rnPlatform"],
+                },
+                sunsets: {
+                    displayName: "Sunsets",
+                    colors: getMixesCollectionFromRoot("#ff5340"),
+                    notes: ["mixed", "rnPlatform"],
+                },
+                flames: {
+                    displayName: "Flames",
+                    colors: getMixesCollectionFromRoot("#ff634f"),
+                    notes: ["mixed", "brand"],
+                },
+                turbos: {
+                    displayName: "Turbos",
+                    colors: getMixesCollectionFromRoot("#e1e31c"),
+                    notes: ["mixed", "rnPlatform"],
+                },
+                sparks: {
+                    displayName: "Sparks",
+                    colors: getMixesCollectionFromRoot("#e4ed57"),
+                    notes: ["mixed", "brand"],
                 },
             };
 
@@ -211,15 +255,24 @@
                 const selectOptionData = groupKeys.map((key) => [
                     key,
                     colorGroups[key].displayName,
+                    colorGroups[key].notes,
                 ]);
 
                 Array.from(
                     document.querySelectorAll("select[data-colors-select]"),
                 ).forEach((selectEl) => {
-                    selectOptionData.forEach(([key, name]) => {
+                    selectOptionData.forEach(([key, name, notes]) => {
                         const optionEl = document.createElement("option");
                         optionEl.value = key;
-                        optionEl.innerText = name;
+
+                        let innerText = name;
+                        Object.keys(notesMap).forEach((noteType) => {
+                            if (notes.includes(noteType)) {
+                                innerText += notesMap[noteType];
+                            }
+                        });
+                        optionEl.innerText = innerText;
+
                         selectEl.appendChild(optionEl);
                     });
                 });
@@ -364,6 +417,16 @@
                     ></span>
                 </div>
             </section>
+            <p>
+                Option symbols legend:
+                <ul>
+                <li>*: Exists in Graphite</li>
+                <li>‡: Exists in RN Platform</li>
+                <li>§: Exists in NF Platform</li>
+                <li>†: Colors mixed based on root color</li>
+                <li>‖: Root color is brand color</li>
+                </ul>
+            </p>
         </main>
         <footer>
             <a
