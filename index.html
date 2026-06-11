@@ -39,6 +39,7 @@
             html {
                 font:
                     20pt/1.2 "Georgia",
+                    "EB Garamond",
                     serif;
             }
 
@@ -75,11 +76,26 @@
                 color: var(--text-color);
             }
 
+            select {
+                font: inherit;
+                border: none;
+                border-bottom: 2px solid #666;
+            }
+
             .colors {
                 isolation: isolate;
                 display: grid;
                 grid-template-columns: repeat(10, 1fr);
                 gap: var(--gap);
+
+                --row-buffer: 0.5rem;
+                &.top-row {
+                    margin-block-start: var(--row-buffer);
+                }
+
+                &.bottom-row {
+                    margin-block-end: var(--row-buffer);
+                }
             }
 
             .color {
@@ -113,120 +129,74 @@
                 shades: [0.2, 0.4, 0.5, 0.6],
             };
 
-            const colorGroups = {
-                royals: {
-                    root: new Color("#0056ef"),
-                    graphite: {
-                        tints: [
-                            new Color("#ecf2fe"),
-                            new Color("#bad3fc"),
-                            new Color("#80acfa"),
-                            new Color("#387ffa"),
-                        ],
-                        shades: [
-                            new Color("#0044c2"),
-                            new Color("#003494"),
-                            new Color("#002570"),
-                            new Color("#011a4c"),
-                        ],
-                    },
-                },
+            /**
+             * @param {Color} rootColor
+             */
+            function getMixesCollectionFromRoot(rootColor) {
+                return [
+                    rootColor.mix("white", mixWeights.tints[0], {
+                        space: "srgb",
+                    }),
+                    rootColor.mix("white", mixWeights.tints[1], {
+                        space: "srgb",
+                    }),
+                    rootColor.mix("white", mixWeights.tints[2], {
+                        space: "srgb",
+                    }),
+                    rootColor.mix("white", mixWeights.tints[3], {
+                        space: "srgb",
+                    }),
+                    rootColor,
+                    rootColor.mix("black", mixWeights.shades[0], {
+                        space: "srgb",
+                    }),
+                    rootColor.mix("black", mixWeights.shades[1], {
+                        space: "srgb",
+                    }),
+                    rootColor.mix("black", mixWeights.shades[2], {
+                        space: "srgb",
+                    }),
+                    rootColor.mix("black", mixWeights.shades[3], {
+                        space: "srgb",
+                    }),
+                ];
+            }
 
-                grays: {
-                    root: new Color("#666666"),
-                    graphite: {
-                        tints: [
-                            new Color("#f0f0f0"),
-                            new Color("#d1d1d1"),
-                            new Color("#b3b3b3"),
-                            new Color("#858585"),
-                        ],
-                        shades: [
-                            new Color("#525252"),
-                            new Color("#333333"),
-                            new Color("#1f1f1f"),
-                            new Color("#0a0a0a"),
-                        ],
-                    },
-                },
+            const royalRoot = new Color("#0056ef"); // aka "Circuit"
+
+            const colorGroups = {
+                royalsGraphite: [
+                    new Color("#ecf2fe"),
+                    new Color("#bad3fc"),
+                    new Color("#80acfa"),
+                    new Color("#387ffa"),
+                    royalRoot,
+                    new Color("#0044c2"),
+                    new Color("#003494"),
+                    new Color("#002570"),
+                    new Color("#011a4c"),
+                ],
+                royalsMixed: getMixesCollectionFromRoot(royalRoot),
             };
 
             /**
              * @param {string} groupName
+             * @param {"top" | "bottom"} row
              */
-            function updateCustomPropsByGroup(groupName) {
+            function updateCustomPropsByGroup(groupName, row) {
                 if (colorGroups[groupName]) {
                     const setProp = document.body.style.setProperty.bind(
                         document.body.style,
                     );
                     const group = colorGroups[groupName];
-
                     const rootColor = group.root;
-                    document.body.style.setProperty(
-                        "--color-top-row--500",
-                        rootColor.toString(),
-                    );
-                    setProp("--color-bottom-row--500", rootColor.toString());
+                    const customPropBase =
+                        row === "top" ? "color-top-row" : "color-bottom-row";
 
-                    // tints
-                    setProp("--color-top-row--100", group.graphite.tints[0]);
-                    setProp("--color-top-row--200", group.graphite.tints[1]);
-                    setProp("--color-top-row--300", group.graphite.tints[2]);
-                    setProp("--color-top-row--400", group.graphite.tints[3]);
-                    setProp(
-                        "--color-bottom-row--100",
-                        rootColor.mix("white", mixWeights.tints[0], {
-                            space: "srgb",
-                        }),
-                    );
-                    setProp(
-                        "--color-bottom-row--200",
-                        rootColor.mix("white", mixWeights.tints[1], {
-                            space: "srgb",
-                        }),
-                    );
-                    setProp(
-                        "--color-bottom-row--300",
-                        rootColor.mix("white", mixWeights.tints[2], {
-                            space: "srgb",
-                        }),
-                    );
-                    setProp(
-                        "--color-bottom-row--400",
-                        rootColor.mix("white", mixWeights.tints[3], {
-                            space: "srgb",
-                        }),
-                    );
-
-                    // shades
-                    setProp("--color-top-row--600", group.graphite.shades[0]);
-                    setProp("--color-top-row--700", group.graphite.shades[1]);
-                    setProp("--color-top-row--800", group.graphite.shades[2]);
-                    setProp("--color-top-row--900", group.graphite.shades[3]);
-                    setProp(
-                        "--color-bottom-row--600",
-                        rootColor.mix("black", mixWeights.shades[0], {
-                            space: "srgb",
-                        }),
-                    );
-                    setProp(
-                        "--color-bottom-row--700",
-                        rootColor.mix("black", mixWeights.shades[1], {
-                            space: "srgb",
-                        }),
-                    );
-                    setProp(
-                        "--color-bottom-row--800",
-                        rootColor.mix("black", mixWeights.shades[2], {
-                            space: "srgb",
-                        }),
-                    );
-                    setProp(
-                        "--color-bottom-row--900",
-                        rootColor.mix("black", mixWeights.shades[3], {
-                            space: "srgb",
-                        }),
-                    );
+                    for (let colIdx = 0; colIdx < 9; colIdx++) {
+                        const propName = `--${customPropBase}--${colIdx * 100 + 100}`;
+                        setProp(propName, group[colIdx].toString());
+                    }
                 }
             }
 
@@ -253,26 +223,34 @@
                     });
                 });
 
-                updateCustomPropsByGroup("royals");
+                updateCustomPropsByGroup("royalsGraphite", "top");
+                updateCustomPropsByGroup("royalsMixed", "bottom");
             });
 
             document.addEventListener("input", ({ target }) => {
-                if (target.dataset["colorsSelect"] !== globalThis.undefined) {
-                    updateCustomPropsByGroup(target.value);
+                const isTarget = (datasetPropName) =>
+                    target.dataset[datasetPropName] !== globalThis.undefined;
+
+                if (isTarget("colorsSelectTop")) {
+                    updateCustomPropsByGroup(target.value, "top");
+                }
+
+                if (isTarget("colorsSelectBottom")) {
+                    updateCustomPropsByGroup(target.value, "bottom");
                 }
             });
         </script>
     </head>
     <body>
-        <header>
-            <select data-colors-select>
-                <option value="royals" selected>Royals</option>
-                <option value="grays">Grays</option>
-            </select>
-        </header>
         <main>
             <section>
-                <p>Graphite</p>
+                <label for="colors-select__top-row">Top row colors</label>:
+                <select data-colors-select-top id="colors-select__top-row">
+                    <option value="royalsGraphite" selected>
+                        Royals (Graphite)
+                    </option>
+                    <option value="royalsMixed">Royals (mixed)</option>
+                </select>
                 <div class="colors top-row">
                     <span
                         class="color"
@@ -313,7 +291,20 @@
                 </div>
             </section>
             <section class="flex-col-reverse">
-                <p>Mixed from root color</p>
+                <div>
+                    <label for="colors-select__bottom-row"
+                        >Bottom row colors</label
+                    >:
+                    <select
+                        data-colors-select-bottom
+                        id="colors-select__bottom-row"
+                    >
+                        <option value="royalsGraphite" selected>
+                            Royals (Graphite)
+                        </option>
+                        <option value="royalsMixed">Royals (mixed)</option>
+                    </select>
+                </div>
                 <div class="colors bottom-row">
                     <span
                         class="color"
