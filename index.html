@@ -15,25 +15,25 @@
                 --text-color: var(--text-color__dark);
                 --gap: 0.3rem;
 
-                --color-graphite--100: black;
-                --color-graphite--200: black;
-                --color-graphite--300: black;
-                --color-graphite--400: black;
-                --color-graphite--500: gray;
-                --color-graphite--600: white;
-                --color-graphite--700: white;
-                --color-graphite--800: white;
-                --color-graphite--900: white;
+                --color-top-row--100: black;
+                --color-top-row--200: black;
+                --color-top-row--300: black;
+                --color-top-row--400: black;
+                --color-top-row--500: gray;
+                --color-top-row--600: white;
+                --color-top-row--700: white;
+                --color-top-row--800: white;
+                --color-top-row--900: white;
 
-                --color-mixed--100: black;
-                --color-mixed--200: black;
-                --color-mixed--300: black;
-                --color-mixed--400: black;
-                --color-mixed--500: gray;
-                --color-mixed--600: white;
-                --color-mixed--700: white;
-                --color-mixed--800: white;
-                --color-mixed--900: white;
+                --color-bottom-row--100: black;
+                --color-bottom-row--200: black;
+                --color-bottom-row--300: black;
+                --color-bottom-row--400: black;
+                --color-bottom-row--500: gray;
+                --color-bottom-row--600: white;
+                --color-bottom-row--700: white;
+                --color-bottom-row--800: white;
+                --color-bottom-row--900: white;
             }
 
             html {
@@ -163,66 +163,66 @@
 
                     const rootColor = group.root;
                     document.body.style.setProperty(
-                        "--color-graphite--500",
+                        "--color-top-row--500",
                         rootColor.toString(),
                     );
-                    setProp("--color-mixed--500", rootColor.toString());
+                    setProp("--color-bottom-row--500", rootColor.toString());
 
                     // tints
-                    setProp("--color-graphite--100", group.graphite.tints[0]);
-                    setProp("--color-graphite--200", group.graphite.tints[1]);
-                    setProp("--color-graphite--300", group.graphite.tints[2]);
-                    setProp("--color-graphite--400", group.graphite.tints[3]);
+                    setProp("--color-top-row--100", group.graphite.tints[0]);
+                    setProp("--color-top-row--200", group.graphite.tints[1]);
+                    setProp("--color-top-row--300", group.graphite.tints[2]);
+                    setProp("--color-top-row--400", group.graphite.tints[3]);
                     setProp(
-                        "--color-mixed--100",
+                        "--color-bottom-row--100",
                         rootColor.mix("white", mixWeights.tints[0], {
                             space: "srgb",
                         }),
                     );
                     setProp(
-                        "--color-mixed--200",
+                        "--color-bottom-row--200",
                         rootColor.mix("white", mixWeights.tints[1], {
                             space: "srgb",
                         }),
                     );
                     setProp(
-                        "--color-mixed--300",
+                        "--color-bottom-row--300",
                         rootColor.mix("white", mixWeights.tints[2], {
                             space: "srgb",
                         }),
                     );
                     setProp(
-                        "--color-mixed--400",
+                        "--color-bottom-row--400",
                         rootColor.mix("white", mixWeights.tints[3], {
                             space: "srgb",
                         }),
                     );
 
                     // shades
-                    setProp("--color-graphite--600", group.graphite.shades[0]);
-                    setProp("--color-graphite--700", group.graphite.shades[1]);
-                    setProp("--color-graphite--800", group.graphite.shades[2]);
-                    setProp("--color-graphite--900", group.graphite.shades[3]);
+                    setProp("--color-top-row--600", group.graphite.shades[0]);
+                    setProp("--color-top-row--700", group.graphite.shades[1]);
+                    setProp("--color-top-row--800", group.graphite.shades[2]);
+                    setProp("--color-top-row--900", group.graphite.shades[3]);
                     setProp(
-                        "--color-mixed--600",
+                        "--color-bottom-row--600",
                         rootColor.mix("black", mixWeights.shades[0], {
                             space: "srgb",
                         }),
                     );
                     setProp(
-                        "--color-mixed--700",
+                        "--color-bottom-row--700",
                         rootColor.mix("black", mixWeights.shades[1], {
                             space: "srgb",
                         }),
                     );
                     setProp(
-                        "--color-mixed--800",
+                        "--color-bottom-row--800",
                         rootColor.mix("black", mixWeights.shades[2], {
                             space: "srgb",
                         }),
                     );
                     setProp(
-                        "--color-mixed--900",
+                        "--color-bottom-row--900",
                         rootColor.mix("black", mixWeights.shades[3], {
                             space: "srgb",
                         }),
@@ -276,39 +276,39 @@
                 <div class="colors top-row">
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--100)"
+                        style="--color: var(--color-top-row--100)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--200)"
+                        style="--color: var(--color-top-row--200)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--300)"
+                        style="--color: var(--color-top-row--300)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--400)"
+                        style="--color: var(--color-top-row--400)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--500)"
+                        style="--color: var(--color-top-row--500)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--600)"
+                        style="--color: var(--color-top-row--600)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--700)"
+                        style="--color: var(--color-top-row--700)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--800)"
+                        style="--color: var(--color-top-row--800)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-graphite--900)"
+                        style="--color: var(--color-top-row--900)"
                     ></span>
                 </div>
             </section>
@@ -317,39 +317,39 @@
                 <div class="colors bottom-row">
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--100)"
+                        style="--color: var(--color-bottom-row--100)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--200)"
+                        style="--color: var(--color-bottom-row--200)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--300)"
+                        style="--color: var(--color-bottom-row--300)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--400)"
+                        style="--color: var(--color-bottom-row--400)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--500)"
+                        style="--color: var(--color-bottom-row--500)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--600)"
+                        style="--color: var(--color-bottom-row--600)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--700)"
+                        style="--color: var(--color-bottom-row--700)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--800)"
+                        style="--color: var(--color-bottom-row--800)"
                     ></span>
                     <span
                         class="color"
-                        style="--color: var(--color-mixed--900)"
+                        style="--color: var(--color-bottom-row--900)"
                     ></span>
                 </div>
             </section>
