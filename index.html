@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>All rise for the Royals</title>
+        <title>Royals (and more)</title>
         <style>
             *,
             *::before,
@@ -228,6 +228,26 @@
                     colors: getMixesCollectionFromRoot("#e4ed57"),
                     notes: ["mixed", "brand"],
                 },
+                graysGraphite: {
+                  displayName: "Neutrals",
+                  colors: [
+                    new Color("#f0f0f0"),
+                    new Color("#d1d1d1"),
+                    new Color("#b3b3b3"),
+                    new Color("#858585"),
+                    new Color("#666666"),
+                    new Color("#525252"),
+                    new Color("#333333"),
+                    new Color("#1f1f1f"),
+                    new Color("#0a0a0a")
+                  ],
+                  notes: ["graphite"]
+                },
+                graysMixed: {
+                  displayName: "Neutrals",
+                  colors: getMixesCollectionFromRoot("#666666"),
+                  notes: ["mixed", "rnPlatform"]
+                }
             };
 
             /**
@@ -304,7 +324,7 @@
                 populateColorSelects();
 
                 updateCustomPropsByGroup("royalsGraphite", "top");
-                updateCustomPropsByGroup("royalsMixed", "bottom");
+                updateCustomPropsByGroup("royalsGraphite", "bottom");
             });
 
             document.addEventListener("input", ({ target }) => {
