@@ -166,18 +166,24 @@
             const royalRoot = new Color("#0056ef"); // aka "Circuit"
 
             const colorGroups = {
-                royalsGraphite: [
-                    new Color("#ecf2fe"),
-                    new Color("#bad3fc"),
-                    new Color("#80acfa"),
-                    new Color("#387ffa"),
-                    royalRoot,
-                    new Color("#0044c2"),
-                    new Color("#003494"),
-                    new Color("#002570"),
-                    new Color("#011a4c"),
-                ],
-                royalsMixed: getMixesCollectionFromRoot(royalRoot),
+                royalsGraphite: {
+                    displayName: "Royals (Graphite)",
+                    colors: [
+                        new Color("#ecf2fe"),
+                        new Color("#bad3fc"),
+                        new Color("#80acfa"),
+                        new Color("#387ffa"),
+                        royalRoot,
+                        new Color("#0044c2"),
+                        new Color("#003494"),
+                        new Color("#002570"),
+                        new Color("#011a4c"),
+                    ],
+                },
+                royalsMixed: {
+                    displayName: "Royals (color-mixed)",
+                    colors: getMixesCollectionFromRoot(royalRoot),
+                },
             };
 
             /**
@@ -189,16 +195,34 @@
                     const setProp = document.body.style.setProperty.bind(
                         document.body.style,
                     );
-                    const group = colorGroups[groupName];
-                    const rootColor = group.root;
+                    const groupColors = colorGroups[groupName].colors;
                     const customPropBase =
                         row === "top" ? "color-top-row" : "color-bottom-row";
 
                     for (let colIdx = 0; colIdx < 9; colIdx++) {
                         const propName = `--${customPropBase}--${colIdx * 100 + 100}`;
-                        setProp(propName, group[colIdx].toString());
+                        setProp(propName, groupColors[colIdx].toString());
                     }
                 }
+            }
+
+            function populateColorSelects() {
+                const groupKeys = Object.keys(colorGroups);
+                const selectOptionData = groupKeys.map((key) => [
+                    key,
+                    colorGroups[key].displayName,
+                ]);
+
+                Array.from(
+                    document.querySelectorAll("select[data-colors-select]"),
+                ).forEach((selectEl) => {
+                    selectOptionData.forEach(([key, name]) => {
+                        const optionEl = document.createElement("option");
+                        optionEl.value = key;
+                        optionEl.innerText = name;
+                        selectEl.appendChild(optionEl);
+                    });
+                });
             }
 
             document.addEventListener("DOMContentLoaded", () => {
@@ -224,6 +248,8 @@
                     });
                 });
 
+                populateColorSelects();
+
                 updateCustomPropsByGroup("royalsGraphite", "top");
                 updateCustomPropsByGroup("royalsMixed", "bottom");
             });
@@ -246,12 +272,11 @@
         <main>
             <section>
                 <label for="colors-select__top-row">Top row:</label>
-                <select data-colors-select-top id="colors-select__top-row">
-                    <option value="royalsGraphite" selected>
-                        Royals (Graphite)
-                    </option>
-                    <option value="royalsMixed">Royals (mixed)</option>
-                </select>
+                <select
+                    data-colors-select
+                    data-colors-select-top
+                    id="colors-select__top-row"
+                ></select>
                 <div class="colors top-row">
                     <span
                         class="color"
@@ -295,16 +320,10 @@
                 <div>
                     <label for="colors-select__bottom-row">Bottom row:</label>
                     <select
+                        data-colors-select
                         data-colors-select-bottom
                         id="colors-select__bottom-row"
-                    >
-                        <option value="royalsGraphite">
-                            Royals (Graphite)
-                        </option>
-                        <option value="royalsMixed" selected>
-                            Royals (mixed)
-                        </option>
-                    </select>
+                    ></select>
                 </div>
                 <div class="colors bottom-row">
                     <span
