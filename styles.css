@@ -1,0 +1,119 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --text-color__light: #fafafa;
+    --text-color__dark: #333;
+
+    --text-color: var(--text-color__dark);
+    --gap: 0.3rem;
+
+    --color-top-row--100: black;
+    --color-top-row--200: black;
+    --color-top-row--300: black;
+    --color-top-row--400: black;
+    --color-top-row--500: gray;
+    --color-top-row--600: white;
+    --color-top-row--700: white;
+    --color-top-row--800: white;
+    --color-top-row--900: white;
+
+    --color-bottom-row--100: black;
+    --color-bottom-row--200: black;
+    --color-bottom-row--300: black;
+    --color-bottom-row--400: black;
+    --color-bottom-row--500: gray;
+    --color-bottom-row--600: white;
+    --color-bottom-row--700: white;
+    --color-bottom-row--800: white;
+    --color-bottom-row--900: white;
+}
+
+html {
+    font:
+        20pt/1.2 "Georgia",
+        "EB Garamond",
+        serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100svh;
+
+    transition:
+        background-color 0.2s ease-out,
+        color 1s ease-out;
+}
+
+main {
+    padding-inline: 2rem;
+    height: 100%;
+    display: grid;
+    place-content: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.75rem;
+}
+
+footer a {
+    color: var(--text-color);
+}
+
+p {
+    margin-block: 0.25rem;
+    color: var(--text-color);
+}
+
+select {
+    font: inherit;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background-color: transparent;
+}
+
+.colors {
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: var(--gap);
+
+    --row-buffer: 0.5rem;
+    &.top-row {
+        margin-block-start: var(--row-buffer);
+    }
+
+    &.bottom-row {
+        margin-block-end: var(--row-buffer);
+    }
+}
+
+.color {
+    height: 3rem;
+    aspect-ratio: 1;
+    background-color: var(--color);
+
+    &:hover {
+        border: 2px solid gold;
+    }
+}
+
+.colors.top-row > * {
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.colors.bottom-row > * {
+    border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.flex-col-reverse {
+    display: flex;
+    flex-direction: column-reverse;
+}
