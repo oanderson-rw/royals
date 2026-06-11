@@ -79,7 +79,8 @@
             select {
                 font: inherit;
                 border: none;
-                border-bottom: 2px solid #666;
+                border-bottom: 2px solid #ccc;
+                background-color: transparent;
             }
 
             .colors {
@@ -244,7 +245,7 @@
     <body>
         <main>
             <section>
-                <label for="colors-select__top-row">Top row colors</label>:
+                <label for="colors-select__top-row">Top row:</label>
                 <select data-colors-select-top id="colors-select__top-row">
                     <option value="royalsGraphite" selected>
                         Royals (Graphite)
@@ -292,9 +293,7 @@
             </section>
             <section class="flex-col-reverse">
                 <div>
-                    <label for="colors-select__bottom-row"
-                        >Bottom row colors</label
-                    >:
+                    <label for="colors-select__bottom-row">Bottom row:</label>
                     <select
                         data-colors-select-bottom
                         id="colors-select__bottom-row"
